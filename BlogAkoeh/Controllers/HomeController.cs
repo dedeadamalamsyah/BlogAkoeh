@@ -26,8 +26,7 @@ namespace BlogAkoeh.Controllers
 
         public IActionResult Detail(int id)
         {
-            Post post = _context.Posts.Where(x => x.Id == id)
-                .FirstOrDefault();
+            Post post = _context.Posts.Where(x => x.Id == id).FirstOrDefault();
             return View(post);
         }
 
