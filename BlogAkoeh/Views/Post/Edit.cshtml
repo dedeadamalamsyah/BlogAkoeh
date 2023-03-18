@@ -1,0 +1,43 @@
+﻿@model Post
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>Add Post</h3>
+            </div>
+
+            <div class="card-body">
+                <form method="post" action="Edit">
+                    <input type="hidden" name="Id" value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label>Title</label>
+                        <input type="text" name="Title" class="form-control" value="@Model.Title" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Content</label>
+                        <input type="text" name="Content" class="form-control" value="@Model.Content" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Created Date</label>
+                        <input type="text" name="CreatedDate" class="form-control" value="@Model.CreatedDate" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Updated Date</label>
+                        <input type="text" name="UpdatedDate" class="form-control" value="@Model.UpdatedDate"/>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-success">
+                            Save
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

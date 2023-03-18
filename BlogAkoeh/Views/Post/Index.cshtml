@@ -1,0 +1,49 @@
+﻿@model List<Post>
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>List Posts</h3>
+            </div>
+
+            <div class="card-body">
+                <a href="/Post/Create" class="btn btn-success">Add Post</a>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="text-center align-middle">
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Created Date</th>
+                            <th>Updated Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var post in Model)
+                        {
+                            <tr>
+                                <td>@post.Title</td>
+                                <td>@post.Content</td>
+                                <td>@post.CreatedDate</td>
+                                <td>@post.UpdatedDate</td>
+
+                                <td>
+                                    <a href="/Post/Edit/@post.Id" class="btn btn-warning">Edit</a>
+                                    <a href="/Post/Delete/@post.Id" class="btn btn-warning">Delete</a>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

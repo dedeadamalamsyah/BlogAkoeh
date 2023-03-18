@@ -2,25 +2,24 @@
 using BlogAkoeh.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace BlogAkoeh.Controllers
 {
     [Authorize]
-    public class UserController : Controller
+    public class PostController : Controller
     {
         private readonly MysqlContext _context;
 
-        public UserController(MysqlContext c)
+        public PostController(MysqlContext c)
         {
             _context = c;
         }
 
         public IActionResult Index()
         {
-            var users = _context.Users.ToList();
+            var posts = _context.Posts.ToList();
 
-            return View(users);
+            return View(posts);
         }
 
         public IActionResult Create()
@@ -29,9 +28,9 @@ namespace BlogAkoeh.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromForm] User user)
+        public IActionResult Create([FromForm] Post post)
         {
-            _context.Users.Add(user);
+            _context.Posts.Add(post);
             _context.SaveChanges();
 
             return RedirectToAction("Index");
@@ -39,14 +38,15 @@ namespace BlogAkoeh.Controllers
 
         public IActionResult Edit(int id)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Id == id);
-            return View(user);
+            var post = _context.Posts.FirstOrDefault(x => x.Id == id);
+
+            return View(post);
         }
 
         [HttpPost]
-        public IActionResult Edit([FromForm] User user)
+        public IActionResult Edit([FromForm] Post post)
         {
-            _context.Users.Update(user);
+            _context.Posts.Update(post);
             _context.SaveChanges();
 
             return RedirectToAction("Index");
@@ -54,11 +54,10 @@ namespace BlogAkoeh.Controllers
 
         public IActionResult Delete(int id)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+            var post = _context.Posts.FirstOrDefault(x => x.Id == id);
 
-            _context.Users.Remove(user);
+            _context.Posts.Remove(post);
             _context.SaveChanges();
-
             return View("Index");
         }
     }
