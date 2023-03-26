@@ -58,7 +58,7 @@ namespace BlogAkoeh.Controllers
 
             _context.Posts.Remove(post);
             _context.SaveChanges();
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }

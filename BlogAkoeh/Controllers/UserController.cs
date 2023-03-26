@@ -51,7 +51,7 @@ namespace BlogAkoeh.Controllers
         {
             if(Photo.Length > 100000)
             {
-                ModelState.AddModelError(nameof(user.Photo), "Photo size is too big");
+                ModelState.AddModelError(nameof(user.Photo), "Photo size is too large");
             }
 
             if(!ModelState.IsValid)
@@ -97,7 +97,7 @@ namespace BlogAkoeh.Controllers
             _context.Users.Remove(user);
             _context.SaveChanges();
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }
