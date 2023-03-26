@@ -13,5 +13,6 @@ namespace BlogAkoeh.Models
         public string Password { get; set; }
         public string Fullname { get; set; }
         public string? Photo { get; set; }
+        public Role Role { get; set; }
     }
 }

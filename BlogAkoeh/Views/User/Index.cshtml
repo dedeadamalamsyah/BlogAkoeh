@@ -19,6 +19,7 @@
                         <tr>
                             <th>Username</th>
                             <th>Fullname</th>
+                            <th>Role</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -29,6 +30,7 @@
                             <tr>
                                 <td>@user.Username</td>
                                 <td>@user.Fullname</td>
+                                <td>@user.Role.Name</td>
 
                                 <td>
                                     <a href="/User/Detail/@user.Id" class="btn btn-primary">Detail</a>

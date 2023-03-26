@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model UserForm
 @{
     Layout = "_AdminLayout";
 }
@@ -24,6 +24,12 @@
                     <div class="mb-3">
                         <label>Fullname</label>
                         <input type="text" name="Fullname" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Role</label>
+                        <select asp-for="Role" asp-items="@ViewBag.Roles" class="form-control">
+                            <option>Select Role</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label>Photo</label>

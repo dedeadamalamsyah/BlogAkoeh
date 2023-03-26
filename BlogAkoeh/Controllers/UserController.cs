@@ -1,7 +1,10 @@
 ﻿using BlogAkoeh.Data;
 using BlogAkoeh.Models;
+using BlogAkoeh.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 
@@ -21,7 +24,7 @@ namespace BlogAkoeh.Controllers
 
         public IActionResult Index()
         {
-            var users = _context.Users.ToList();
+            var users = _context.Users.Include(x => x.Role).ToList();
 
             return View(users);
         }
@@ -43,15 +46,21 @@ namespace BlogAkoeh.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.Roles = _context.Roles.Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            });
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create([FromForm] User user, IFormFile Photo)
+        public IActionResult Create([FromForm] UserForm UserForm, IFormFile Photo)
         {
             if(Photo.Length > 100000)
             {
-                ModelState.AddModelError(nameof(user.Photo), "Photo size is too large");
+                ModelState.AddModelError(nameof(UserForm.Photo), "Photo size is too large");
             }
 
             if(!ModelState.IsValid)
@@ -59,7 +68,7 @@ namespace BlogAkoeh.Controllers
                 return View();
             }
 
-            var filename = "photo_" + user.Username + Path.GetExtension(Photo.FileName);
+            var filename = "photo_" + UserForm.Username + Path.GetExtension(Photo.FileName);
             var filepath = Path.Combine(_env.WebRootPath, "upload", filename);
 
             using (var stream = System.IO.File.Create(filepath))
@@ -67,9 +76,20 @@ namespace BlogAkoeh.Controllers
                 Photo.CopyTo(stream);
             }
 
-            user.Photo = filename;
+            var role = _context.Roles.FirstOrDefault(x => x.Id == UserForm.Role);
 
-            _context.Users.Add(user);
+            var User = new User()
+            {
+                Username = UserForm .Username,
+                Password = UserForm.Password,
+                Fullname = UserForm.Fullname,
+                Photo = filename,
+                Role = role
+            };
+
+            UserForm.Photo = filename;
+
+            _context.Users.Add(User);
             _context.SaveChanges();
 
             return RedirectToAction("Index");
