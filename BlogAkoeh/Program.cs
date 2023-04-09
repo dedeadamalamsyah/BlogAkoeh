@@ -1,4 +1,6 @@
 using BlogAkoeh.Data;
+using BlogAkoeh.Models;
+using BlogAkoeh.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +17,12 @@ builder.Services.AddAuthentication()
     {
         option.LoginPath = "/account/login";
     });
+builder.Services.Configure<MailSettings>
+    (
+    builder.Configuration.GetSection(nameof(MailSettings))
+    );
+
+builder.Services.AddTransient<EmailService>();
 
 var app = builder.Build();
 
