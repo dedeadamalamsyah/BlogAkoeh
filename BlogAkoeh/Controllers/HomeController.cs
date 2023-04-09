@@ -1,5 +1,6 @@
 ﻿using BlogAkoeh.Data;
 using BlogAkoeh.Models;
+using BlogAkoeh.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -9,17 +10,28 @@ namespace BlogAkoeh.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly MysqlContext _context;
+        private readonly EmailService _emailService;
 
         public HomeController(
             ILogger<HomeController> logger,
-            MysqlContext c)
+            MysqlContext c, EmailService e)
         {
             _logger = logger;
             _context = c;
+            _emailService = e;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var EmailData = new MailData()
+            {
+                To = "dedeadamalamsyah9@gmail.com",
+                Subject = "Test Email #1",
+                Message = "Demo Email"
+            };
+
+            await _emailService.SendAsync(EmailData);
+
             List<Post> posts = _context.Posts.ToList();
             return View(posts);
         }
