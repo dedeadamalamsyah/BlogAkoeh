@@ -11,14 +11,16 @@ namespace BlogAkoeh.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly MysqlContext _context;
         private readonly EmailService _emailService;
+        private readonly IWebHostEnvironment _env;
 
         public HomeController(
             ILogger<HomeController> logger,
-            MysqlContext c, EmailService e)
+            MysqlContext c, EmailService e, IWebHostEnvironment env)
         {
             _logger = logger;
             _context = c;
             _emailService = e;
+            _env = env;
         }
 
         public async Task<IActionResult> Index()
@@ -27,7 +29,9 @@ namespace BlogAkoeh.Controllers
             {
                 To = "dedeadamalamsyah9@gmail.com",
                 Subject = "Test Email #1",
-                Message = "Demo Email"
+                //Message = "Demo Email"
+                Message = System.IO.File.ReadAllText(
+                    _env.WebRootPath + "\\template\\email.html")
             };
 
             await _emailService.SendAsync(EmailData);
